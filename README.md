@@ -10,16 +10,105 @@ It takes messy inputs (Nginx logs, multilingual tickets, PDF contracts, a billin
 per-customer result. Every credit figure in that result can be traced back to minute ranges, ticket IDs and
 contract clauses.
 
+```mermaid
+flowchart TB
+    subgraph IN["📥 1 · Messy inputs"]
+        direction LR
+        PDF["📄 <b>SLA contracts</b><br/><i>PDF · Mongolian / English</i>"]
+        TIX["🎫 <b>Incident tickets</b><br/><i>CSV · Cyrillic / Latin / English</i>"]
+        LOG["📜 <b>Nginx access logs</b><br/><i>.log / .gz · UTC + UB time</i>"]
+        BILL["💰 <b>Billing</b><br/><i>CSV · fees in MNT</i>"]
+    end
+
+    subgraph READ["🤖 2 · LLM reads (facts only)"]
+        direction LR
+        XC["Extract <b>ContractTerms</b><br/>with clause citations"]
+        XI["Extract <b>Incident</b><br/>times · category · evidence"]
+    end
+
+    subgraph GATE["🛡️ 3 · Pydantic gate"]
+        direction LR
+        VC{"Contract valid?<br/>cited · tiers sane"}
+        VI{"Incident valid?<br/>confidence ≥ 0.7"}
+        PL["Parse logs<br/>LogRecord → MinuteBucket<br/><i>up / down / unknown</i>"]
+        PB["Parse billing<br/>BillingRow · integer MNT"]
+    end
+
+    subgraph HUMAN["👤 Human in the loop"]
+        direction LR
+        AP["Approve contract<br/>resolve ambiguity"]
+        RQ["Incident<br/>review queue"]
+    end
+
+    subgraph ENGINE["⚙️ 4 · Code decides · engine.py"]
+        direction LR
+        EX["<b>Exclusions</b><br/>notice · cap · overlaps"]
+        UP["<b>Uptime</b><br/>exact fraction"]
+        CR["<b>Credit</b><br/>tier · cap · round"]
+        RC["<b>Reconcile</b><br/>logs ⇄ tickets"]
+    end
+
+    subgraph OUT["📤 5 · Auditable outputs"]
+        direction LR
+        RES["<b>CustomerSlaResult</b><br/>+ ResultLine audit trail"]
+        FLG["<b>ReconciliationFlag</b><br/>unreported outage · short notice …"]
+        SUM["<b>RunSummary</b><br/>Slack text · Sheet row"]
+    end
+
+    PDF --> XC --> VC
+    TIX --> XI --> VI
+    LOG --> PL
+    BILL --> PB
+
+    VC -. "invalid → retry ≤ 2" .-> XC
+    VC -- "ambiguous" --> AP
+    AP -- "resolved" --> VC
+    VI -- "low confidence" --> RQ
+    RQ -. "after review" .-> EX
+
+    VC -- "approved" --> EX
+    VI -- "ok" --> EX
+    EX --> UP
+    PL --> UP
+    UP --> CR
+    PB --> CR
+    PL --> RC
+    VI -- "all incidents" --> RC
+
+    CR --> RES
+    RC --> FLG
+    RES --> SUM
+    FLG --> SUM
+
+    classDef input  fill:#f1f5f9,stroke:#64748b,color:#0f172a
+    classDef llm    fill:#ede9fe,stroke:#7c3aed,color:#2e1065
+    classDef gate   fill:#dbeafe,stroke:#2563eb,color:#172554
+    classDef human  fill:#fef3c7,stroke:#d97706,color:#451a03
+    classDef engine fill:#dcfce7,stroke:#16a34a,color:#052e16
+    classDef output fill:#ccfbf1,stroke:#0d9488,color:#042f2e
+
+    class PDF,TIX,LOG,BILL input
+    class XC,XI llm
+    class VC,VI,PL,PB gate
+    class AP,RQ human
+    class EX,UP,CR,RC engine
+    class RES,FLG,SUM output
+
+    style IN     fill:#f8fafc,stroke:#94a3b8,color:#0f172a
+    style READ   fill:#f5f3ff,stroke:#a78bfa,color:#2e1065
+    style GATE   fill:#eff6ff,stroke:#60a5fa,color:#172554
+    style HUMAN  fill:#fffbeb,stroke:#fbbf24,color:#451a03
+    style ENGINE fill:#f0fdf4,stroke:#4ade80,color:#052e16
+    style OUT    fill:#f0fdfa,stroke:#2dd4bf,color:#042f2e
 ```
-SLA PDF ─► [LLM] ContractTerms ─► Pydantic ─► human approval ──────────┐
-Tickets ─► [LLM] Incident      ─► Pydantic ─► conf < 0.7 → review queue ┤
-Nginx logs ─► [code] parse → minute buckets → up / down / unknown ──────┤
-Billing CSV ─► [code] BillingRow (integer MNT) ─────────────────────────┤
-                                                                        ▼
-                         [code] exclusions → uptime → credit → reconcile
-                                                                        ▼
-                           CustomerSlaResult · ReconciliationFlag · RunSummary
-```
+
+| Colour | Stage | Rule it enforces |
+|---|---|---|
+| 🟪 Purple | LLM reads | Extracts facts and citations only, never numbers or decisions |
+| 🟦 Blue | Pydantic gate | Nothing reaches the engine without passing a model |
+| 🟨 Amber | Human in the loop | Ambiguous contracts and low-confidence incidents wait for a person |
+| 🟩 Green | Code decides | All time, exclusion and money logic is deterministic and unit-tested |
+| 🟦 Teal | Outputs | Every credit traces back to minutes, ticket IDs and contract clauses |
 
 ## Quick start
 
