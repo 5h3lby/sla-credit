@@ -1,0 +1,10 @@
+﻿Ticket_ID , Created_At ,Summary,Description
+OPS-101,2026-10-03 09:12,Төлөвлөгөөт засвар,"Өнөөдөр шөнийн 02:00-04:00 цагт өгөгдлийн сангийн шинэчлэл хийнэ.
+Үйлчлүүлэгчдэд мэдэгдсэн."
+OPS-102,2026-10-14T23:40:00+08:00,Өчигдөр оройн 10 цагаас API ажиллахгүй,"Харилцагч ""Нарлаг Зээл"" утсаар мэдэгдсэн, 502 алдаа"
+OPS-103,2026-10-20T01:05:00Z,lending api unavailable,Ugluu 9 tsagaas hoish zeeliin API 502 butsaaj baina. Harilcagch medegdsen
+  OPS-104  ,2026-10-31T23:30:00+08:00,   Maintenance window crossing into November 🔧   ,
+,2026-10-21T10:00:00+08:00,Missing id row,Should be rejected
+OPS-106,өчигдөр,Bad timestamp row,created_at is free text
+OPS-107,2026-10-22T10:00:00+08:00,,
+ops-108,2026-10-22T11:00:00+08:00,lowercase id,Should be rejected by ticket_id pattern

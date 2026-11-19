@@ -1,0 +1,18 @@
+[
+  {"ticket_id": "OPS-101", "start": "2026-10-04T02:00:00+08:00", "end": "2026-10-04T04:00:00+08:00",
+   "category": "planned_maintenance", "notified_at": "2026-10-03T09:12:00+08:00",
+   "affected_services": ["lending-api"], "confidence": 0.92,
+   "evidence": "Өнөөдөр шөнийн 02:00-04:00 цагт өгөгдлийн сангийн шинэчлэл хийнэ."},
+  {"ticket_id": "OPS-102", "start": "2026-10-13T22:00:00+08:00", "end": "2026-10-13T23:30:00+08:00",
+   "category": "provider_fault", "notified_at": null,
+   "affected_services": ["lending-api"], "confidence": 0.81,
+   "evidence": "Өчигдөр оройн 10 цагаас API ажиллахгүй"},
+  {"ticket_id": "OPS-103", "start": "2026-10-19T21:00:00+08:00", "end": "2026-10-19T21:45:00+08:00",
+   "category": "customer_caused", "notified_at": null,
+   "affected_services": ["Lending-API"], "confidence": 0.55,
+   "evidence": "Ugluu 9 tsagaas hoish zeeliin API 502 butsaaj baina"},
+  {"ticket_id": "OPS-104", "start": "2026-10-31T23:00:00+08:00", "end": "2026-11-01T03:00:00+08:00",
+   "category": "planned_maintenance", "notified_at": "2026-10-25T10:00:00+08:00",
+   "affected_services": ["lending-api"], "confidence": 0.95,
+   "evidence": "Maintenance window crossing into November"}
+]

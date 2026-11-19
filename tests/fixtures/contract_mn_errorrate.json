@@ -1,0 +1,29 @@
+{
+  "customer": "Нарлаг Зээл ББСБ",
+  "service": "lending-api",
+  "uptime_target": 99.9,
+  "measurement_window": "calendar_month",
+  "timezone": "Asia/Ulaanbaatar",
+  "downtime_definition": {"type": "error_rate", "threshold_pct": 5, "window_minutes": 1},
+  "exclusions": [
+    {"type": "planned_maintenance", "min_notice_hours": 72, "max_hours_per_month": 4},
+    {"type": "customer_caused"},
+    {"type": "force_majeure"}
+  ],
+  "credit_tiers": [
+    {"min": 99.0, "max": 99.9, "credit_pct": 10},
+    {"min": 95.0, "max": 99.0, "credit_pct": 25},
+    {"min": 0, "max": 95.0, "credit_pct": 50}
+  ],
+  "credit_cap_pct": 50,
+  "claim_window_days": 30,
+  "citations": {
+    "uptime_target": "Хавсралт 2, 3.1",
+    "downtime_definition": "Хавсралт 2, 3.2",
+    "exclusions": "4.1–4.3 дугаар зүйл",
+    "credit_tiers": "5.2 дугаар зүйл",
+    "credit_cap_pct": "5.3 дугаар зүйл",
+    "claim_window_days": "6.1 дүгээр зүйл"
+  },
+  "ambiguities": []
+}

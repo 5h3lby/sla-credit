@@ -1,0 +1,34 @@
+{
+  "customer": "Altan Cloud",
+  "service": "storage-api",
+  "uptime_target": "99.5",
+  "measurement_window": "calendar_month",
+  "timezone": "Asia/Ulaanbaatar",
+  "downtime_definition": {"type": "probe"},
+  "exclusions": [
+    {"type": "planned_maintenance", "min_notice_hours": null, "max_hours_per_month": "2.5"},
+    {"type": "force_majeure"}
+  ],
+  "credit_tiers": [
+    {"min": "0", "max": "90", "credit_pct": "30"},
+    {"min": "99", "max": "99.5", "credit_pct": "5"},
+    {"min": "90", "max": "99", "credit_pct": "15"}
+  ],
+  "credit_cap_pct": 30,
+  "claim_window_days": 14,
+  "citations": {
+    "uptime_target": "Clause 2.1",
+    "downtime_definition": "Clause 2.4",
+    "exclusions": "Clause 7",
+    "credit_tiers": "Annex C, Table 1 (page 14)",
+    "credit_cap_pct": "Annex C, note 3",
+    "claim_window_days": "Clause 9.2"
+  },
+  "ambiguities": [
+    {
+      "field": "exclusions.planned_maintenance.min_notice_hours",
+      "quote": "Provider shall give the Customer reasonable notice of planned maintenance.",
+      "clause": "Clause 7.1"
+    }
+  ]
+}

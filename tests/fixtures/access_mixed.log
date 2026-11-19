@@ -1,0 +1,18 @@
+10.0.0.5 - - [17/Oct/2026:14:03:11 +0800] "GET /api/loans HTTP/1.1" 200 512 "-" "curl/8.4.0"
+10.0.0.5 - - [17/Oct/2026:06:03:12 +0000] "POST /api/loans HTTP/1.1" 502 0 "-" "okhttp/4.12"
+time=2026-10-17T06:03:40Z host=lending-api method=GET uri=/health status=503 rt=0.002
+time=2026-10-17T14:03:50 host=lending-api method=GET uri=/api/loans status=200 rt=0.010
+time=2026-10-17T14:04:30+08:00 host=lending-api method=GET uri="/api/loans?id=7" status=200
+2001:db8::7 - - [17/Oct/2026:14:04:31 +0800] "GET /api/rates HTTP/2.0" 200 88 "-" "Mozilla/5.0"
+10.0.0.9 - - [17/Oct/2026:14:04:32 +0800] "-" 400 0 "-" "-"
+10.0.0.9 - - [17/oct/2026:14:04:33 +0800] "GET /api/loans HTTP/1.1" 200 1 "-" "-"
+10.0.0.9 - - [17/Oct/2026:14:04:34] "GET /api/loans HTTP/1.1" 200 1 "-" "-"
+
+10.0.0.5 - - [17/Oct/2026:14:04:0
+10.0.0.9 - - [31/Sep/2026:10:00:00 +0800] "GET / HTTP/1.1" 200 1 "-" "-"
+10.0.0.9 - - [17/Oct/2026:14:05:00 +0800] "GET /api/loans HTTP/1.1" 999 1 "-" "-"
+10.0.0.9 - - [17/Okt/2026:14:05:01 +0800] "GET /api/loans HTTP/1.1" 200 1 "-" "-"
+time=yesterday host=lending-api status=200
+time=2026-10-17T06:05:02Z host=lending-api uri=/x
+<html><body>502 Bad Gateway</body></html>
+   
